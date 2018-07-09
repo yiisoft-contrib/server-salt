@@ -1,0 +1,48 @@
+# This is the master configuration file used by salt-ssh
+#
+# https://docs.saltstack.com/en/latest/topics/ssh/#configuring-salt-ssh
+
+# use this directory as the root directory for salt paths
+# this make the configuration of salt local to this repository
+root_dir: .
+log_file: logs/master
+cachedir: cache
+
+# store private ssh keys here
+pki_dir: .
+
+# different roots for different envs
+file_roots:
+  base:
+    - states
+
+# pillar location
+pillar_roots:
+  base:
+    - pillar
+
+file_ignore_regex:
+  - '/\.git($|/)'
+
+
+# Show terse output for successful states and full output for failures.
+#state_output: mixed
+
+# Only show changes
+state_verbose: False
+
+# some minion config options from http://ryandlane.com/blog/2014/08/26/saltstack-masterless-bootstrapping/
+ssh_minion_opts:
+
+  # For development purposes, always fail if any state fails. This makes it much
+  # easier to ensure first-runs will succeed.
+  #failhard: True
+
+  # Show terse output for successful states and full output for failures.
+  #state_output: mixed
+
+  # Only show changes
+  state_verbose: False
+
+
+

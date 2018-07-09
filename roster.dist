@@ -1,0 +1,13 @@
+
+
+discourse.yii.c.cebe.net:
+  host: 95.216.155.185
+  user: root
+  priv: ~/.ssh/id_rsa
+
+
+nodebb.yii.c.cebe.net:
+  host: 95.216.155.242
+  user: root
+  priv: ~/.ssh/id_rsa
+

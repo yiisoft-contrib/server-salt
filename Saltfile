@@ -1,0 +1,6 @@
+salt-ssh:
+  ssh_log_file: ./logs/salt
+  config_dir: .
+  ssh_max_procs: 30
+  ssh_wipe: True
+
