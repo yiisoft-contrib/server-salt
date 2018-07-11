@@ -1,0 +1,20 @@
+abuse:          postmaster
+mail:           postmaster
+mailer-daemon:  postmaster
+postfix:        postmaster
+postmaster:     postmaster@cebe.net
+ftp:            root
+hostmaster:     root
+nobody:         root
+noc:            root
+ntp:            root
+munin:          root
+usenet:         root
+news:           root
+security:       root
+sshd:           root
+webmaster:      root
+www:            root
+www-data:       root
+root:	        hostmaster@cebe.net
+

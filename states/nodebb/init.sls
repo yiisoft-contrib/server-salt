@@ -1,5 +1,6 @@
 
 include:
+  - postfix
   - nginx.nginx
   - acme.acme
   - .nodejs

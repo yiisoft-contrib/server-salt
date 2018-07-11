@@ -1,0 +1,76 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+relayhost                     = [moub.mail.cebe.net]
+
+default_database_type         = btree
+biff                          = no
+
+append_dot_mydomain           = no
+myorigin                      = {{ grains.id }}
+mydomain                      = {{ grains.domain }}
+myhostname                    = {{ grains.id }}
+mydestination                 = localhost, localhost.$mydomain, {{ grains.id }}
+#mynetworks                   = 127.0.0.0/8, [::1]/128
+mynetworks_style              = host
+recipient_delimiter           = +
+
+inet_interfaces               = loopback-only
+#ipv6,all
+inet_protocols                = all
+
+notify_classes                = resource, software, delay, bounce, 2bounce
+
+maximal_queue_lifetime        = 4d
+bounce_queue_lifetime         = 4d
+delay_warning_time            = 1h
+
+minimal_backoff_time          = 3m
+maximal_backoff_time          = 30m
+address_verify_negative_refresh_time   = 1h
+
+# No mailbox limit to avoid conflict with message size
+mailbox_size_limit            = 0
+virtual_mailbox_limit         = 0
+# 100 MB * 1,36 wegen base64 http://de.wikipedia.org/wiki/Base64
+message_size_limit            = 142606336
+# 1 MB
+bounce_size_limit             = 1048576
+# 100 KB
+header_size_limit             = 102400
+
+alias_maps                    = hash:/etc/aliases
+alias_database                = $alias_maps
+luser_relay                   = hostmaster@cebe.net
+
+address_verify_map            = btree:${data_directory}/verify
+address_verify_sender         = double-bounce
+
+# DIE RESTRICTIONS LASSEN KEIN BACKUP ZU (server is not ment to be a backup system)
+# Backup-MX nur für eigene Netze
+# (IP des höchsten MX im DNS)
+#permit_mx_backup_networks             = $mynetworks
+
+#
+# debugging für den Notfall: defer_if_permit, defer_if_reject, warn_if_reject
+## oder auch:
+#soft_bounce                           = yes
+#always_bcc                            = hostmaster@cebe.net
+#debug_peer_list                       = 88.198.50.207
+
+# TLS parameters
+# http://koti.kapsi.fi/ptk/postfix/postfix-tls-cacert.shtml
+# TODO use different cert and proper CA chain for client
+#smtp_tls_CAfile = /etc/postfix/tls-client-ca-crt.pem
+smtp_tls_cert_file = /etc/postfix/tls-client-cert.pem
+smtp_tls_key_file = /etc/postfix/tls-client-key.pem
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_tls_session_cache
+# TODO increase security level
+smtp_tls_security_level = encrypt
+smtp_tls_loglevel = 1
+smtp_tls_CApath = /etc/ssl/certs
+
+# smtpd should not be running. in case it does, reject everything.
+# it could be running on localhost and permit users from localhost to connect
+# mynetworkstyle is set to host above
+smtpd_recipient_restrictions = permit_mynetworks, reject
+

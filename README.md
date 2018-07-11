@@ -35,6 +35,13 @@ TBD
 
 # Salt States
 
+Note that salt will only return and display any output when all states are applied.
+On the first run this may take a long time, for discourse for example, their setup script says:
+
+> This process may take anywhere between a few minutes to an hour, depending on your network speed
+>
+> Please be patient
+
 
 ## `discourse`
 
@@ -43,6 +50,8 @@ Install using `salt-ssh 'discourse.*' state.sls discourse`.
 The salt state does the following:
 
 - install docker
+- install postfix for sending mails (relay via cebe.cc mail cluster)
+- install discourse
 - ...
 
 TODO 
@@ -56,11 +65,16 @@ The salt state does the following:
 
 - install nginx as a proxy
 - issue a letencrypt certificate for the server name
+- install postfix for sending mails (relay via cebe.cc mail cluster)
 - install nodejs and yarn
 - install nodebb
 - setup nodebb (will print out admin username and password on first run)
 
 You can access nodebb on the server host name, e.g. `https://nodebb.example.com`
+
+Manual configuration steps:
+
+- configure email to use `localhost` port `25` smtp server.
 
 ### TODO
 
