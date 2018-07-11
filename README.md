@@ -33,9 +33,37 @@ TBD
 2. Run `salt-ssh -i '*' test.ping` to see if servers are set up correctly (`-i` on the first run to automatically accept the host keys).
 
 
-# Directory structure
-
-TBD
+# Salt States
 
 
+## `discourse`
+
+Install using `salt-ssh 'discourse.*' state.sls discourse`.
+
+The salt state does the following:
+
+- install docker
+- ...
+
+TODO 
+
+
+## `nodebb`
+
+Install using `salt-ssh 'nodebb.*' state.sls nodebb`.
+
+The salt state does the following:
+
+- install nginx as a proxy
+- issue a letencrypt certificate for the server name
+- install nodejs and yarn
+- install nodebb
+- setup nodebb (will print out admin username and password on first run)
+
+You can access nodebb on the server host name, e.g. `https://nodebb.example.com`
+
+### TODO
+
+- configure backup for `/opt/nodebb/public/uploads` and mongodb
+- configure yii integration
 

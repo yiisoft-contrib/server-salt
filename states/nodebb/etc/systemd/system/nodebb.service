@@ -1,0 +1,16 @@
+[Unit]
+Description=Nodebb forum software
+After=network.target mongod.service
+
+[Service]
+Type=forking
+User=nodebb
+
+WorkingDirectory=/opt/nodebb
+PIDFile=/opt/nodebb/pidfile
+ExecStart=/usr/bin/env node loader.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
