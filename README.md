@@ -52,9 +52,13 @@ The salt state does the following:
 - install docker
 - install postfix for sending mails (relay via cebe.cc mail cluster)
 - install discourse
-- ...
 
-TODO 
+You can access discourse on the server host name, e.g. `https://discourse.example.com`
+
+### TODO
+
+- configure backups
+- configure yii integration
 
 
 ## `nodebb`
