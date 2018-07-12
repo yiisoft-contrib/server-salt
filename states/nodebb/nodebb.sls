@@ -179,3 +179,38 @@ journalctl -xe -n 100:
     - onfail:
       - service: nodebb_service
 
+# nodebb plugins
+{% set nbb_plugins = ['nodebb-plugin-dbsearch', 'nodebb-plugin-spam-be-gone'] %}
+
+{% for nbb_plugin in nbb_plugins %}
+
+plugin_yarn_{{ nbb_plugin }}:
+  cmd.run:
+    - name: yarn add {{ nbb_plugin }}
+    - cwd: /opt/nodebb
+    - unless: yarn list |grep {{ nbb_plugin }}
+    - require:
+      - cmd: /opt/nodebb/nodebb setup
+
+plugin_activate_{{ nbb_plugin }}:
+  cmd.run:
+    - name: /opt/nodebb/nodebb activate {{ nbb_plugin }}
+    - cwd: /opt/nodebb
+    - require:
+      - cmd: plugin_yarn_{{ nbb_plugin }}
+
+{% endfor %}
+
+
+/opt/nodebb/nodebb build:
+  cmd.run:
+    - cwd: /opt/nodebb
+    - user: nodebb
+    - onchanges:
+{% for nbb_plugin in nbb_plugins %}
+      - cmd: plugin_activate_{{ nbb_plugin }}
+{% endfor %}
+    - watch_in:
+      - service: nodebb_service
+
+
