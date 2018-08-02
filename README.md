@@ -55,6 +55,41 @@ The salt state does the following:
 
 You can access discourse on the server host name, e.g. `https://discourse.example.com`
 
+### Data import
+
+Import old forum data into discourse:
+
+1. `mysqldump yiisite --ignore-table=yiisite.tbl_session > /tmp/yiisite.sql`
+2. copy dump to the new server: `scp cebe@old.yiiframework.com:/tmp/yiisite.sql /var/discourse/shared/standalone/yiisite.sql`
+3. start discourse app container: `docker exec -it app bash`
+   - install mysql `apt-get install mysql-server mysql-client libmysqlclient-dev`
+   - `service mysql start`
+   - `echo "create database yiisite" | mysql -uroot -proot`
+   - `mysql -uroot -proot yiisite < /shared/yiisite.sql`
+   - prepare discourse import script to have mysql client:
+     - `cd /var/www/discourse`
+     - `echo "gem 'mysql2'" >>Gemfile`
+     - `echo "gem 'reverse_markdown'" >>Gemfile`
+     - `bundle install --no-deployment`
+     - make sure database access works replace `peer` with `trust` in `/etc/postgresql/10/main/pg_hba.conf`
+     - `service postgresql restart`
+
+   - `DB_HOST="localhost" DB_NAME="yiisite" DB_USER="root" DB_PW="root" TABLE_PREFIX="ipb_" IMPORT_AFTER="1970-01-01" UPLOADS="https://www.yiiframework.com/forum/uploads" URL="https://www.yiiframework.com/forum/" AVATARS_DIR="/imports/avatars/" USERDIR="user"  bundle exec ruby script/import_scripts/ipboard.rb | tee import.log`
+
+   - if all went fine, clean up with `service mysql stop`, `apt-get purge mysql-server`, `rm -rf /var/lib/mysql`
+
+**TODO**
+
+- avatars and uploaded files
+
+Resources:
+
+- https://meta.discourse.org/t/importing-xenforo-to-discourse/45232
+- https://meta.discourse.org/t/migrating-from-invision-power-board-to-discourse/34639/23
+- https://github.com/discourse/discourse/pull/5543
+
+
+
 ### TODO
 
 - configure backups
@@ -79,6 +114,17 @@ You can access nodebb on the server host name, e.g. `https://nodebb.example.com`
 Manual configuration steps:
 
 - configure email to use `localhost` port `25` smtp server.
+
+### Data import
+
+TODO
+
+Resources:
+
+- https://github.com/NodeBB/NodeBB/issues/2008
+- https://github.com/akhoury/nodebb-plugin-import-ipboard
+- https://github.com/akhoury/nodebb-plugin-import
+
 
 ### TODO
 

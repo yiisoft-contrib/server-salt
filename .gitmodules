@@ -1,0 +1,3 @@
+[submodule "states/basic"]
+	path = states/basic
+	url = https://github.com/cebe-cc/salt-basic.git
