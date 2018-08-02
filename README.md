@@ -6,7 +6,10 @@ This repository contains [Saltstack](https://saltstack.com/salt-open-source/) st
 # Setup
 
 You need [`salt-ssh`](https://docs.saltstack.com/en/latest/topics/ssh/index.html)
- installed and have it configured with your SSH key.
+installed and have it configured with your SSH key.
+ 
+Copy the [roster.dist](./roster.dist)  file to `roster` and adjust it if you are not working on the live servers.
+You need to configure your SSH key in the `roster` file.
 
 ## Linux (Debian/Ubuntu)
 
@@ -15,6 +18,8 @@ Install `salt-ssh` via APT:
     apt-get install salt-ssh
 
 We are currently working with version 2016.11 or higher (check with `salt-ssh --version`).
+
+Alternatively you can install it via python pip: `pip install salt-ssh`.
 
 ## Windows
 
@@ -45,7 +50,7 @@ On the first run this may take a long time, for discourse for example, their set
 
 ## `discourse`
 
-Install using `salt-ssh 'discourse.*' state.sls discourse`.
+Install using `salt-ssh '<server-name>' state.sls discourse` (replace `<server-name>` with the instance name from salt `roster` file).
 
 The salt state does the following:
 
@@ -98,7 +103,7 @@ Resources:
 
 ## `nodebb`
 
-Install using `salt-ssh 'nodebb.*' state.sls nodebb`.
+Install using `salt-ssh '<server-name>' state.sls nodebb` (replace `<server-name>` with the instance name from salt `roster` file).
 
 The salt state does the following:
 
@@ -113,7 +118,7 @@ You can access nodebb on the server host name, e.g. `https://nodebb.example.com`
 
 Manual configuration steps:
 
-- configure email to use `localhost` port `25` smtp server.
+- configure email in NodeBB settings to use `localhost` port `25` smtp server.
 
 ### Data import
 
