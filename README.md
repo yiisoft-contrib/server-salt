@@ -71,6 +71,8 @@ Import old forum data into discourse:
    - `service mysql start`
    - `echo "create database yiisite" | mysql -uroot -proot`
    - `mysql -uroot -proot yiisite < /shared/yiisite.sql`
+   - cleanup ipb data: https://gist.github.com/samdark/c65c22b4a63d565917360ef4b1f1d5c7
+   - in all posts replace `[php]` tags with proper Markdown
    - prepare discourse import script to have mysql client:
      - `cd /var/www/discourse`
      - `echo "gem 'mysql2'" >>Gemfile`
