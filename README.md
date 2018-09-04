@@ -2,6 +2,8 @@
 
 This repository contains [Saltstack](https://saltstack.com/salt-open-source/) state files for provisioning Yii Framework servers.
 
+Dependencies:
+- https://github.com/cebe-cc/salt-basic
 
 # Setup
 
