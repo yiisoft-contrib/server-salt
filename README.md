@@ -101,7 +101,8 @@ Import old forum data into discourse:
 
 1. `mysqldump yiisite --ignore-table=yiisite.tbl_session > /tmp/yiisite.sql`
 2. copy dump to the new server: `scp cebe@old.yiiframework.com:/tmp/yiisite.sql /var/discourse/shared/standalone/yiisite.sql`
-3. start discourse app container: `docker exec -it app bash`
+3. copy uploaded files to the new server: `scp cebe@old.yiiframework.com:/tmp/uploads.tgz /var/discourse/shared/standalone/uploads.tgz`
+4. start discourse app container: `docker exec -it app bash`
    - install mysql `apt-get install mysql-server mysql-client libmysqlclient-dev`
    - `service mysql start`
    - `echo "create database yiisite" | mysql -uroot -proot`
