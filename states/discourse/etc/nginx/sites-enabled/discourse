@@ -1,0 +1,23 @@
+server {
+	charset utf-8;
+
+	listen [::]:80;
+	listen 80;
+
+	server_name {{ salt['pillar.get']('discourse:url', grains.id) }} *.{{ salt['pillar.get']('discourse:url', grains.id) }};
+
+	access_log  /var/log/nginx/discourse.access.log;
+	error_log   /var/log/nginx/discourse.error.log;
+
+	root        /var/www/html;
+	index       index.php;
+
+	# allow serving ACME files
+	location /.well-known/ {
+	}
+	location / {
+		# redirect to HTTPS
+		return 301 https://{{ salt['pillar.get']('discourse:url', grains.id) }}$request_uri;
+	}
+}
+

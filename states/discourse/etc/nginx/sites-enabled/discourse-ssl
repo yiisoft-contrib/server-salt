@@ -1,0 +1,44 @@
+server {
+	charset utf-8;
+	client_max_body_size 128M;
+	keepalive_timeout 70;
+
+	listen [::]:443 ssl http2;
+	listen 443 ssl http2;
+
+	server_name {{ salt['pillar.get']('discourse:url', grains.id) }} *.{{ salt['pillar.get']('discourse:url', grains.id) }};
+
+	access_log  /var/log/nginx/discourse-ssl.access.log;
+	error_log   /var/log/nginx/discourse-ssl.error.log;
+
+    location /errorpages/ {
+        alias /var/www/errorpages/;
+    }
+
+	location / {
+
+        error_page 502 =502 /errorpages/discourse_offline.html;
+        proxy_intercept_errors on;
+
+        # https://meta.discourse.org/t/adding-an-offline-page-when-rebuilding/45238
+
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host;
+
+		proxy_buffers 16 4k;
+		proxy_buffer_size 2k;
+
+		proxy_pass http://unix:/var/discourse/shared/standalone/nginx.http.sock:;
+
+        proxy_redirect off;
+
+	}
+
+	# SSL
+	ssl_certificate /var/lib/acme/{{ (pillar.ssl['acme-certs']|first).domains|first }}/fullchain.cer;
+	ssl_certificate_key /var/lib/acme/{{ (pillar.ssl['acme-certs']|first).domains|first }}/{{ (pillar.ssl['acme-certs']|first).domains|first }}.key;
+
+	include ssl_params;
+}
+

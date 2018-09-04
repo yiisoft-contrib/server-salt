@@ -2,11 +2,16 @@
 curl:
   pkg.installed
 
+git:
+  pkg.installed
+
 acme_git:
   git.latest:
     - name: https://github.com/Neilpang/acme.sh.git
     - rev: v2.6.9
     - target: /opt/acme.sh
+    - require:
+        - pkg: git
 
 acme_install:
   cmd.run:
@@ -21,6 +26,8 @@ acme_cert_cron:
     - name: '/var/lib/acme/acme.sh --cron --home "/var/lib/acme" > /var/log/acme.log'
     - minute: 15
     - hour: 4
+    - require:
+        - cmd: acme_install
 
 # TODO acme logrotate
 # TODO cron may need to restart nginx --reloadcmd "service nginx reload"

@@ -91,6 +91,7 @@ The salt state does the following:
 - install docker
 - install postfix for sending mails (relay via cebe.cc mail cluster)
 - install discourse
+- install nginx as a reverse-proxy in front of discourse
 
 You can access discourse on the server host name, e.g. `https://discourse.example.com`
 

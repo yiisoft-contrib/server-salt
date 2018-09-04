@@ -13,15 +13,17 @@ templates:
   - "templates/web.template.yml"
   - "templates/web.ratelimited.template.yml"
 ## Uncomment these two lines if you wish to add Lets Encrypt (https)
-  - "templates/web.ssl.template.yml"
-  - "templates/web.letsencrypt.ssl.template.yml"
+#  - "templates/web.ssl.template.yml"
+#  - "templates/web.letsencrypt.ssl.template.yml"
+# https://meta.discourse.org/t/adding-an-offline-page-when-rebuilding/45238
+  - "templates/web.socketed.template.yml"
 
 ## which TCP/IP ports should this container expose?
 ## If you want Discourse to share a port with another webserver like Apache or nginx,
 ## see https://meta.discourse.org/t/17247 for details
 expose:
-  - "80:80"   # http
-  - "443:443" # https
+#  - "80:80"   # http
+#  - "443:443" # https
 
 params:
   db_default_text_search_config: "pg_catalog.english"
@@ -46,7 +48,7 @@ env:
 
   ## TODO: The domain name this Discourse instance will respond to
   ## Required. Discourse will not work with a bare IP number.
-  DISCOURSE_HOSTNAME: {{ grains.id }}
+  DISCOURSE_HOSTNAME: {{ salt['pillar.get']('discourse:url', grains.id) }}
 
   ## Uncomment if you want the container to be started with the same
   ## hostname (-h option) as specified above (default "$hostname-$config")
@@ -96,5 +98,6 @@ run:
   ## If you want to set the 'From' email address for your first registration, uncomment and change:
   ## After getting the first signup email, re-comment the line. It only needs to run once.
   #- exec: rails r "SiteSetting.notification_email='info@unconfigured.discourse.org'"
+  - exec: rails r "SiteSetting.use_https=true"
   - exec: echo "End of custom commands"
 

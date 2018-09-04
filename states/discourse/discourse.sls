@@ -26,7 +26,6 @@ discourse_git:
 discourse_build:
   cmd.run:
     - name: /var/discourse/launcher rebuild app
-#    - name: /var/discourse/launcher bootstrap app
     - cwd: /var/discourse
     - onchanges:
       - file: /var/discourse/containers/app.yml
