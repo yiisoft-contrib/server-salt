@@ -1,13 +1,17 @@
+# yii framework production servers
 
-
-discourse.yii.c.cebe.net:
-  host: 95.216.155.185
+forum.yii.c.cebe.net:
+  host: 159.69.125.49 
   user: root
   priv: ~/.ssh/id_rsa
 
+bot.yii.c.cebe.net:
+  host: 195.201.36.132
+  user: root
+  priv: ~/.ssh/id_rsa
 
-nodebb.yii.c.cebe.net:
-  host: 95.216.155.242
+site.yii.c.cebe.net:
+  host: 195.201.43.218
   user: root
   priv: ~/.ssh/id_rsa
 
