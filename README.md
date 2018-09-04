@@ -43,6 +43,32 @@ TBD
 1. Configure servers in salt roster (copy `roster.dist` to `roster` and adjust it as needed)
 2. Run `salt-ssh -i '*' test.ping` to see if servers are set up correctly (`-i` on the first run to automatically accept the host keys).
 
+# Setting up a new server
+
+For setting up a new server you need to have your public added to `/root/.ssh/authorized_keys`.
+Run `salt-ssh -i 'servername' test.ping` to test the setup. It should respond with
+
+```yaml
+servername:
+    True
+```
+
+If the server is set up correctly we apply the `basic` state to install some common software and configure basic stuff:
+
+    salt-ssh 'servername' state.sls basic
+
+# Deploying
+
+For deplyoment, apply the state for the servers task:
+
+    salt-ssh 'servername' state.sls <task>
+
+`<task>` is one of the following states (as described below under "Salt States"):
+
+- Discourse Forum: `discourse`
+- :construction: Yii Website: `yiiframework` (not in this repo yet)
+- :construction: Yii Github bot: `yiibot` (not in this repo yet)
+
 
 # Salt States
 
