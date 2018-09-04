@@ -5,6 +5,12 @@ This repository contains [Saltstack](https://saltstack.com/salt-open-source/) st
 
 # Setup
 
+Clone the repo and install submodules:
+
+    git clone git@github.com:yiisoft-contrib/server-salt.git yii-servers
+    cd yii-servers
+    git submodule update --init
+
 You need [`salt-ssh`](https://docs.saltstack.com/en/latest/topics/ssh/index.html)
 installed and have it configured with your SSH key.
  
