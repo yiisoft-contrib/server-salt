@@ -116,7 +116,7 @@ Import old forum data into discourse:
      - make sure database access works replace `peer` with `trust` in `/etc/postgresql/10/main/pg_hba.conf`
      - `service postgresql restart`
 
-   - `DB_HOST="localhost" DB_NAME="yiisite" DB_USER="root" DB_PW="root" TABLE_PREFIX="ipb_" IMPORT_AFTER="1970-01-01" UPLOADS="https://www.yiiframework.com/forum/uploads" URL="https://www.yiiframework.com/forum/" AVATARS_DIR="/imports/avatars/" USERDIR="user"  bundle exec ruby script/import_scripts/ipboard.rb | tee import.log`
+   - `DB_HOST="localhost" DB_NAME="yiisite" DB_USER="root" DB_PW="root" TABLE_PREFIX="ipb_" IMPORT_AFTER="1970-01-01" UPLOADS="https://forum.yiiframework.com/ipb_uploads" AVATARS_DIR="/shared/imports/uploads/" USERDIR="user"  bundle exec ruby script/import_scripts/ipboard.rb | tee import.log`
 
    - if all went fine, clean up with `service mysql stop`, `apt-get purge mysql-server`, `rm -rf /var/lib/mysql`
 
