@@ -95,7 +95,7 @@ The salt state does the following:
 
 You can access discourse on the server host name, e.g. `https://discourse.example.com`
 
-### Data import
+### Data import from IPB forum
 
 Import old forum data into discourse:
 
