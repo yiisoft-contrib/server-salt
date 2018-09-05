@@ -125,16 +125,13 @@ Import old forum data into discourse:
 
    - if all went fine, clean up with `service mysql stop`, `apt-get purge mysql-server`, `rm -rf /var/lib/mysql`
 
-**TODO**
-
-- avatars and uploaded files
-
 Resources:
 
 - https://meta.discourse.org/t/importing-xenforo-to-discourse/45232
 - https://meta.discourse.org/t/migrating-from-invision-power-board-to-discourse/34639/23
 - https://github.com/discourse/discourse/pull/5543
-
+- https://meta.discourse.org/t/adding-an-offline-page-when-rebuilding/45238
+- https://meta.discourse.org/t/official-single-sign-on-for-discourse-sso/13045
 
 
 ### TODO
