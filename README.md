@@ -102,6 +102,9 @@ Import old forum data into discourse:
 1. `mysqldump yiisite --ignore-table=yiisite.tbl_session > /tmp/yiisite.sql`
 2. copy dump to the new server: `scp cebe@old.yiiframework.com:/tmp/yiisite.sql /var/discourse/shared/standalone/yiisite.sql`
 3. copy uploaded files to the new server: `scp cebe@old.yiiframework.com:/tmp/uploads.tgz /var/discourse/shared/standalone/uploads.tgz`
+   - `cp /var/discourse/shared/standalone/uploads.tgz /var/www`
+   - `cd /var/www && tar xzvf uploads.tgz`
+   - `mv uploads ipb_uploads`
 4. start discourse app container: `docker exec -it app bash`
    - install mysql `apt-get install mysql-server mysql-client libmysqlclient-dev`
    - `service mysql start`
@@ -115,6 +118,8 @@ Import old forum data into discourse:
      - `bundle install --no-deployment`
      - make sure database access works replace `peer` with `trust` in `/etc/postgresql/10/main/pg_hba.conf`
      - `service postgresql restart`
+
+   - apply changes to import script: https://github.com/discourse/discourse/compare/master...cebe:patch-1
 
    - `DB_HOST="localhost" DB_NAME="yiisite" DB_USER="root" DB_PW="root" TABLE_PREFIX="ipb_" IMPORT_AFTER="1970-01-01" UPLOADS="https://forum.yiiframework.com/ipb_uploads" AVATARS_DIR="/shared/imports/uploads/" USERDIR="user"  bundle exec ruby script/import_scripts/ipboard.rb | tee import.log`
 
