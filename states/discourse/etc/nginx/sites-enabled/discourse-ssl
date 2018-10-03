@@ -6,7 +6,7 @@ server {
 	listen [::]:443 ssl http2;
 	listen 443 ssl http2;
 
-	server_name {{ salt['pillar.get']('discourse:url', grains.id) }} *.{{ salt['pillar.get']('discourse:url', grains.id) }};
+	server_name {{ salt['pillar.get']('discourse:url', grains.id) }}
 
 	access_log  /var/log/nginx/discourse-ssl.access.log;
 	error_log   /var/log/nginx/discourse-ssl.error.log;
@@ -14,6 +14,10 @@ server {
     location /errorpages/ {
         alias /var/www/errorpages/;
     }
+
+	location /ipb_uploads/ {
+		alias /var/www/ipb_uploads/;
+	}
 
 	location / {
 
@@ -33,6 +37,35 @@ server {
 
         proxy_redirect off;
 
+	}
+
+	# SSL
+	ssl_certificate /var/lib/acme/{{ (pillar.ssl['acme-certs']|first).domains|first }}/fullchain.cer;
+	ssl_certificate_key /var/lib/acme/{{ (pillar.ssl['acme-certs']|first).domains|first }}/{{ (pillar.ssl['acme-certs']|first).domains|first }}.key;
+
+	include ssl_params;
+}
+
+# make IPB uploads available on www.forum.yiiframework.com but redirect everything else to forum.yiiframework.com
+server {
+	charset utf-8;
+	client_max_body_size 128M;
+	keepalive_timeout 70;
+
+	listen [::]:443 ssl http2;
+	listen 443 ssl http2;
+
+	server_name *.{{ salt['pillar.get']('discourse:url', grains.id) }};
+
+	access_log  /var/log/nginx/discourse-ssl-wild.access.log;
+	error_log   /var/log/nginx/discourse-ssl-wild.error.log;
+
+	location /ipb_uploads/ {
+		alias /var/www/ipb_uploads/;
+	}
+
+	location / {
+		return 301 https://{{ salt['pillar.get']('discourse:url', grains.id) }}$request_uri;
 	}
 
 	# SSL
