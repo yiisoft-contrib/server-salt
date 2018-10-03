@@ -20,6 +20,10 @@ server {
 	}
 
 	location / {
+        limit_conn connperip 20;
+        limit_req zone=flood burst=12 nodelay;
+        limit_req zone=bot burst=100 nodelay;
+
 
         error_page 502 =502 /errorpages/discourse_offline.html;
         proxy_intercept_errors on;

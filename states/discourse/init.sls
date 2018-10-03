@@ -19,6 +19,13 @@ include:
     - watch_in:
       - service: nginx_service2
 
+/etc/nginx/conf.d/discourse.conf:
+  file.managed:
+    - source: salt://discourse/etc/nginx/conf.d/discourse.conf
+    - template: jinja
+    - watch_in:
+      - service: nginx_service2
+
 nginx_test_config2:
   cmd.run:
     - name: nginx -t
