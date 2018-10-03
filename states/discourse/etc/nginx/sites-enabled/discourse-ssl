@@ -20,10 +20,6 @@ server {
 	}
 
 	location / {
-        limit_conn connperip 20;
-        limit_req zone=flood burst=12 nodelay;
-        limit_req zone=bot burst=100 nodelay;
-
 
         error_page 502 =502 /errorpages/discourse_offline.html;
         proxy_intercept_errors on;
@@ -32,6 +28,7 @@ server {
 
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
 
 		proxy_buffers 16 4k;
