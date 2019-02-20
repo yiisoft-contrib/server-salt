@@ -29,5 +29,10 @@ acme_cert_{{ ssl_domain }}:
         - cmd: acme_install
         - pkg: curl
 
+# TODO make sure webroot is added to config if initial issue was via standalone server
+# Le_Webroot='/var/www/html'
+# in
+# /var/lib/acme/forum.yiiframework.com/forum.yiiframework.com.conf
+
 {% endfor %}
 {% endif %}
