@@ -31,8 +31,9 @@ server {
 		proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
 
-		proxy_buffers 16 4k;
-		proxy_buffer_size 2k;
+        proxy_busy_buffers_size    512k;
+		proxy_buffers           16 512k;
+		proxy_buffer_size          256k;
 
 		proxy_pass http://unix:/var/discourse/shared/standalone/nginx.http.sock:;
 
