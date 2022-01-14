@@ -1,0 +1,24 @@
+server {
+	charset utf-8;
+	client_max_body_size 128M;
+
+	listen [::]:80;
+	listen 80;
+
+	server_name bot.yiiframework.com bot.yii.c.cebe.net;
+
+	access_log  /var/log/nginx/yiibot.access.log;
+	error_log   /var/log/nginx/yiibot.error.log;
+
+	root        /var/www/yiibot/web;
+	index       index.php;
+
+	# allow serving ACME files
+	location /.well-known/ {
+	}
+	location / {
+		# redirect to HTTPS
+		return 301 https://bot.yiiframework.com$request_uri;
+	}
+
+}

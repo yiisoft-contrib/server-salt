@@ -1,0 +1,154 @@
+limit_req_zone $binary_remote_addr zone=password_reset:10m rate=30r/m;
+limit_req_zone $binary_remote_addr zone=signup:10m rate=30r/m;
+limit_req_zone $binary_remote_addr zone=login:10m rate=30r/m;
+limit_req_zone $binary_remote_addr zone=search:10m rate=100r/s;
+
+server {
+	charset utf-8;
+	client_max_body_size 128M;
+	keepalive_timeout 70;
+
+	listen [::]:443 ssl;
+	listen 443 ssl;
+
+	server_name www.yiiframework.com;
+	root        /var/www/yiiframework/web;
+	index       index.php;
+
+	access_log  /var/log/nginx/yiiframework-ssl.access.log;
+	error_log   /var/log/nginx/yiiframework-ssl.error.log;
+
+	# CSP header
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://kiwiirc.com ; style-src 'self' 'unsafe-inline'; img-src 'self' https://user-content.yiiframework.com https://www.gravatar.com http://www.gravatar.com data: ; child-src 'self' https://kiwiirc.com ; frame-src 'self' https://kiwiirc.com ; upgrade-insecure-requests ;";
+	add_header X-Frame-Options SAMEORIGIN;
+	add_header X-XSS-Protection "1; mode=block";
+	# https://scotthelme.co.uk/a-new-security-header-referrer-policy/
+	add_header Referrer-Policy strict-origin;
+
+	location /signup {
+			limit_req zone=signup;
+			# Redirect everything that isn't a real file to index.php
+			try_files $uri $uri/ /index.php?$args;
+	}
+	location /login {                                                  
+		limit_req zone=login;                                      
+		# Redirect everything that isn't a real file to index.php   
+		try_files $uri $uri/ /index.php?$args;                      
+	}                                                                   
+	location ~* /search.* {
+		limit_req zone=search;
+		# Redirect everything that isn't a real file to index.php
+		try_files $uri $uri/ /index.php?$args;
+	}
+	location /auth/request-password-reset {
+		limit_req zone=password_reset;
+		# Redirect everything that isn't a real file to index.php   
+		try_files $uri $uri/ /index.php?$args;                      
+	}
+
+
+	location / {
+		# Redirect everything that isn't a real file to index.php
+		try_files $uri $uri/ /index.php?$args;
+	}
+
+#	location ^~ /forum/ {
+#		proxy_set_header Host new.yiiframework.com;
+#		proxy_set_header X-Forwarded-For $remote_addr;
+#		proxy_buffers 16 4k;
+#		proxy_buffer_size 2k;
+#		proxy_pass http://107.20.134.47/forum/;
+#	}
+	# proxy old style files needed by the forum
+#	location ~ ^/(css/960\.css|css/layout\.css|css/global\.css|js/site\.js|js/jquery\.min\.js|css/img/.*\.png)$ {
+#		proxy_set_header Host new.yiiframework.com;
+#		proxy_set_header X-Forwarded-For $remote_addr;
+#		proxy_buffers 16 4k;
+#		proxy_buffer_size 2k;
+#		proxy_pass http://107.20.134.47;
+#	}
+
+	location ~ ^/doc/.*\.(png|jpg|gif)$ {
+	    try_files $uri /index.php?$args;
+	}
+	location ~ \.(png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+            expires 1M;
+            add_header Cache-Control "public";
+	    try_files $uri /index.php?$args;
+	}
+	location ~ \.(js|css|woff|woff2|svg|ttf|eot)$ {
+            expires 7d;
+            gzip on;
+            gzip_comp_level 4;
+            gzip_types *;
+            gzip_vary on;
+            add_header Cache-Control "public";
+	    try_files $uri =404;
+	}
+
+	location ~ ^/index.php$ {
+		include fastcgi_params;
+		#fastcgi_pass   127.0.0.1:9000;
+		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		try_files $uri =404;
+	}
+
+	location ~ /\.(ht|svn|git) {
+		deny all;
+	}
+
+	# SSL
+	ssl_certificate /var/lib/acme/yiiframework.com/fullchain.cer;
+	ssl_certificate_key /var/lib/acme/yiiframework.com/yiiframework.com.key;
+
+	# Add perfect forward secrecy
+	ssl_prefer_server_ciphers on;
+	# Add HSTS
+	#add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+	add_header Strict-Transport-Security "max-age=15552000";
+	# disable insecure SSL protocols:
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+	# https://aralbalkan.com/scribbles/setting-up-ssl-with-nginx-using-a-namecheap-essentialssl-wildcard-certificate-on-digitalocean/
+	ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA';
+
+	ssl_dhparam /etc/nginx/ssl/dhparams.pem;
+}
+
+server {
+	charset utf-8;
+	client_max_body_size 128M;
+	keepalive_timeout 70;
+
+	listen [::]:443 ssl;
+	listen 443 ssl;
+
+	server_name yiiframework.com *.yiiframework.com yiiframework.domain-na.me *.yiiframework.domain-na.me;
+	root        /var/www/yiiframework/web;
+	index       index.php;
+
+	access_log  /var/log/nginx/yiiframework-ssl.access.log;
+	error_log   /var/log/nginx/yiiframework-ssl.error.log;
+
+	# allow serving ACME files
+	location /.well-known/ {
+	}
+	location / {
+		# redirect to WWW
+		return 301 https://www.yiiframework.com$request_uri;
+	}
+
+	# SSL
+	ssl_certificate /var/lib/acme/yiiframework.com/fullchain.cer;
+	ssl_certificate_key /var/lib/acme/yiiframework.com/yiiframework.com.key;
+
+	# Add perfect forward secrecy
+	ssl_prefer_server_ciphers on;
+	# Add HSTS
+	# disable insecure SSL protocols:
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+	# https://aralbalkan.com/scribbles/setting-up-ssl-with-nginx-using-a-namecheap-essentialssl-wildcard-certificate-on-digitalocean/
+	ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA';
+
+	ssl_dhparam /etc/nginx/ssl/dhparams.pem;
+}
+

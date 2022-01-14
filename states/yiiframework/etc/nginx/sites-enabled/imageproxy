@@ -1,0 +1,148 @@
+
+# Nginx will create a cache capable of storing 32MB of keys and 10GB of data.
+proxy_cache_path /tmp/nginx-imageproxy levels=1:2 keys_zone=imageproxy_cache:32M inactive=1d max_size=10G;
+
+
+# caching server
+
+server {
+    listen [::]:443 ssl;
+    listen 443 ssl;
+
+    server_name user-content.yiiframework.com;
+    root /var/www/yiiframework/web;
+
+    # allow serving ACME files
+    location /.well-known/ {
+    }
+    # redirect to WWW
+    location / {
+        return 301 https://www.yiiframework.com$request_uri;
+    }
+    # serve images
+    location /img {
+        proxy_pass http://127.0.0.1:10199;
+        # cache config
+        proxy_cache imageproxy_cache;
+        proxy_cache_key "$host$document_uri$is_args$arg_key";
+        proxy_cache_valid 200 1d;
+        proxy_cache_lock on;
+        proxy_cache_valid 1d;  # Cache valid thumbnails for 1 day.
+        proxy_cache_valid any 15s;  # Everything else gets 15s.
+        proxy_http_version 1.1;
+    }
+
+    access_log  /var/log/nginx/imageproxy.access.log;
+    error_log  /var/log/nginx/imageproxy.error.log;
+
+    # SSL
+    ssl_certificate /var/lib/acme/user-content.yiiframework.com/fullchain.cer;
+    ssl_certificate_key /var/lib/acme/user-content.yiiframework.com/user-content.yiiframework.com.key;
+    
+    # Add perfect forward secrecy
+    ssl_prefer_server_ciphers on;
+    # Add HSTS
+    # disable insecure SSL protocols:
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    # https://aralbalkan.com/scribbles/setting-up-ssl-with-nginx-using-a-namecheap-essentialssl-wildcard-certificate-on-digitalocean/
+    ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA';
+    
+    ssl_dhparam /etc/nginx/ssl/dhparams.pem;
+}
+
+# image server
+
+server {
+    listen 127.0.0.1:10199;
+
+    proxy_buffering off;
+    proxy_http_version 1.1;
+    proxy_pass_request_body off;
+    proxy_pass_request_headers off;
+
+    # clean up the headers
+    proxy_hide_header "Set-Cookie";
+    proxy_method GET;
+
+    # image filter settings
+    image_filter_buffer 12M;
+    image_filter_interlace on;
+    error_page 400 =400 /empty;
+    error_page 403 =403 /empty;
+    error_page 415 =415 /empty;
+    error_page 500 =500 /empty;
+    error_page 501 =501 /empty;
+    error_page 503 =503 /empty;
+
+    set $secret_url_key '{{ pillar.yiisite.secret_url_key }}';
+
+    # ssl settings
+    ssl_prefer_server_ciphers on;
+    ssl_dhparam /etc/nginx/ssl/dhparams.pem;
+
+    # svg proxy
+    location ~ ^/img/([A-Za-z0-9_-]+)/(http|https)/([^/]+)/(.+\.svg)$ {
+
+        set $xproxy_url "$2://$3/$4$is_args$args";
+        set $xproxy_host "$2://$3";
+
+        secure_link $1;  # The hash is stored in the `key` querystring arg.
+        secure_link_md5 "$xproxy_url $secret_url_key";
+
+        add_header X-Proxy-Url "$xproxy_url" always;
+        if ($secure_link = "") {
+            # The security check failed, invalid key!
+            return 403;
+        }
+
+        # name to use for SNI
+        proxy_ssl_server_name on;
+        proxy_ssl_name $3;
+        proxy_pass $xproxy_url;
+        # follow redirects interally
+        proxy_intercept_errors on;
+        error_page 301 302 307 = @handle_redirect;
+    }
+
+    # image proxy location: /img/<secure-hash>/<base64encoded-image-url>
+    location ~ ^/img/([A-Za-z0-9_-]+)/(http|https)/([^/]+)/(.+)$ {
+
+        set $xproxy_url "$2://$3/$4$is_args$args";
+        set $xproxy_host "$2://$3";
+
+        secure_link $1;  # The hash is stored in the `key` querystring arg.
+        secure_link_md5 "$xproxy_url $secret_url_key";
+
+        add_header X-Proxy-Url "$xproxy_url" always;
+        if ($secure_link = "") {
+            # The security check failed, invalid key!
+            return 403;
+        }
+
+        # name to use for SNI
+        proxy_ssl_server_name on;
+        proxy_ssl_name $3;
+        proxy_pass $xproxy_url;
+        # follow redirects interally
+        proxy_intercept_errors on;
+        error_page 301 302 307 = @handle_redirect;
+
+        # ensures that responses are images in either JPEG, GIF, PNG, or WebP format.
+        # Otherwise, the 415 (Unsupported Media Type) error is returned.
+    #    image_filter test; # skipping image filter to allow SVG
+
+    }
+
+    # follow redirects interally
+    # https://serverfault.com/questions/423265/how-to-follow-http-redirects-inside-nginx#792035
+    location @handle_redirect {
+        set $saved_redirect_location '$upstream_http_location';
+        proxy_pass $saved_redirect_location;
+    }
+
+    location = /empty {
+        empty_gif;
+    }
+
+}
+

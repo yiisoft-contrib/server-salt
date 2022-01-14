@@ -1,0 +1,25 @@
+	
+server {
+	charset utf-8;
+	client_max_body_size 128M;
+
+	listen [::]:80;
+	listen 80;
+
+	server_name yiiframework.com *.yiiframework.com yiiframework.domain-na.me *.yiiframework.domain-na.me;
+
+	access_log  /var/log/nginx/yiiframework.access.log;
+	error_log   /var/log/nginx/yiiframework.error.log;
+
+	root        /var/www/yiiframework/web;
+	index       index.php;
+
+	# allow serving ACME files
+	location /.well-known/ {
+	}
+	location / {
+		# redirect to HTTPS
+		return 301 https://www.yiiframework.com$request_uri;
+	}
+}
+

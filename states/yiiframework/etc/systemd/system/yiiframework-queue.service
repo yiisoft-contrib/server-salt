@@ -1,0 +1,20 @@
+[Unit]
+Description=Yiiframework Queue Service
+After=network.target
+After=mysql.service
+Requires=mysql.service
+
+[Service]
+
+User=www-data
+Group=www-data
+
+ExecStart=/usr/bin/php /var/www/yiiframework/yii queue/listen --verbose
+Restart=on-failure
+
+WorkingDirectory=/var/www/yiiframework
+
+[Install]
+# automatically start this service on normal boot
+WantedBy=multi-user.target
+
