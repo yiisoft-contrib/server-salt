@@ -8,3 +8,10 @@ ssl:
     - domains:
         - user-content.yiiframework.com
       webdir: /var/www/yiiframework/web
+
+php:
+  version: 7.0
+  extensions:
+    - mysql
+
+composer-home: /root/.composer
