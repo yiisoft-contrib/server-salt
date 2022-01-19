@@ -1,0 +1,19 @@
+[Unit]
+Description=SSH tunnel for Yii forum MySQL connection
+After=network.target
+
+[Service]
+
+User=root
+Group=root
+
+Restart=always
+RestartSec=2
+WorkingDirectory=/tmp
+ExecStart=/usr/bin/ssh -N -L 3307:127.0.0.1:3306 cebe@107.20.134.47
+
+[Install]
+# automatically start this service on normal boot
+WantedBy=multi-user.target
+
+

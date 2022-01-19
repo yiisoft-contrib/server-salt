@@ -1,3 +1,9 @@
 [submodule "states/basic"]
 	path = states/basic
 	url = https://github.com/cebe-cc/salt-basic.git
+[submodule "states/nginx"]
+	path = states/nginx
+	url = https://github.com/cebe-cc/salt-nginx.git
+[submodule "states/php"]
+	path = states/php
+	url = https://github.com/cebe-cc/salt-php.git

@@ -65,6 +65,10 @@ For deplyoment, apply the state for the servers:
 
     salt-ssh 'servername' state.apply
 
+You may specify `test=True`, to see if the apply command would change anything:
+
+    salt-ssh 'servername' state.apply test=True
+
 This will apply the states as defined in `states/top.sls`.
 
 To apply a specific states, you can specifiy it:

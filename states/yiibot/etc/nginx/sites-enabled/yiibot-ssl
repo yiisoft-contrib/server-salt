@@ -1,0 +1,53 @@
+server {
+	charset utf-8;
+	client_max_body_size 128M;
+	keepalive_timeout 70;
+
+	listen [::]:443 ssl;
+	listen 443 ssl;
+
+	server_name bot.yiiframework.com bot.yii.c.cebe.net;
+	root        /var/www/yiibot/web;
+	index       index.php;
+
+	access_log  /var/log/nginx/yiibot.access.log;
+	error_log   /var/log/nginx/yiibot.error.log;
+
+	location / {
+		# Redirect everything that isn't a real file to index.php
+		try_files $uri $uri/ /index.php?$args;
+	}
+
+	# uncomment to avoid processing of calls to non-existing static files by Yii
+	#location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+	#    try_files $uri =404;
+	#}
+	#error_page 404 /404.html;
+
+	location ~ \.php$ {
+		include fastcgi_params;
+		#fastcgi_pass   127.0.0.1:9000;
+		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		try_files $uri =404;
+	}
+
+	location ~ /\.(ht|svn|git) {
+		deny all;
+	}
+
+	# SSL
+	ssl_certificate /var/lib/acme/bot.yiiframework.com/fullchain.cer;
+	ssl_certificate_key /var/lib/acme/bot.yiiframework.com/bot.yiiframework.com.key;
+
+	# Add perfect forward secrecy
+	ssl_prefer_server_ciphers on;
+	# Add HSTS
+	#add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+	add_header Strict-Transport-Security "max-age=15552000";
+	# disable insecure SSL protocols:
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+	# https://aralbalkan.com/scribbles/setting-up-ssl-with-nginx-using-a-namecheap-essentialssl-wildcard-certificate-on-digitalocean/
+	ssl_ciphers 'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:!DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA';
+
+	ssl_dhparam /etc/nginx/ssl/dhparams.pem;
+}
