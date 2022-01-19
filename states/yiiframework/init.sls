@@ -75,7 +75,7 @@ composer:
 
 /etc/nginx/sites-enabled/yiiframework:
   file.managed:
-    - source: salt://services/yiiframework/etc/nginx/sites-enabled/yiiframework
+    - source: salt://yiiframework/etc/nginx/sites-enabled/yiiframework
     - watch_in:
       - service: nginx_service2
     - require:
@@ -98,7 +98,7 @@ nginx_service2:
 
 /etc/nginx/sites-enabled/yiiframework-ssl:
   file.managed:
-    - source: salt://services/yiiframework/etc/nginx/sites-enabled/yiiframework-ssl
+    - source: salt://yiiframework/etc/nginx/sites-enabled/yiiframework-ssl
     - watch_in:
       - service: nginx_service
     - require:
@@ -207,7 +207,7 @@ docs_pkg:
 
 /etc/systemd/system/yiiframework-queue.service:
   file.managed:
-    - source: salt://services/yiiframework/etc/systemd/system/yiiframework-queue.service
+    - source: salt://yiiframework/etc/systemd/system/yiiframework-queue.service
 
 #/etc/systemd/system/yii-forum-mysql.service:
 #  file.managed:
@@ -218,7 +218,7 @@ systemd_reload:
     - name: systemctl daemon-reload
     - onchanges:
       - file: /etc/systemd/system/yiiframework-queue.service
-      - file: /etc/systemd/system/yii-forum-mysql.service
+#      - file: /etc/systemd/system/yii-forum-mysql.service
 
 yiiframework-queue:
   service.running:

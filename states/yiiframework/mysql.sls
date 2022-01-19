@@ -111,7 +111,7 @@ mysql_permissions_forum_write:
 
 /etc/mysql/mariadb.conf.d/60-custom.cnf:
   file.managed:
-    - source: salt://services/yiiframework/etc/mysql/mariadb.conf.d/60-custom.cnf
+    - source: salt://yiiframework/etc/mysql/mariadb.conf.d/60-custom.cnf
     - require:
       - pkg: mysql-server
 

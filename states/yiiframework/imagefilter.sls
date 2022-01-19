@@ -18,7 +18,8 @@ nginx-extras:
 
 /etc/nginx/sites-enabled/imageproxy:
   file.managed:
-    - source: salt://services/yiiframework/etc/nginx/sites-enabled/imageproxy
+    - source: salt://yiiframework/etc/nginx/sites-enabled/imageproxy
+    - template: jinja
     - watch_in:
       - service: nginx_service
     - require:

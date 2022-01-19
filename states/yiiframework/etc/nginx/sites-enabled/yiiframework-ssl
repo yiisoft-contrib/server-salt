@@ -8,8 +8,8 @@ server {
 	client_max_body_size 128M;
 	keepalive_timeout 70;
 
-	listen [::]:443 ssl;
-	listen 443 ssl;
+	listen [::]:443 ssl http2;
+	listen 443 ssl http2;
 
 	server_name www.yiiframework.com;
 	root        /var/www/yiiframework/web;
