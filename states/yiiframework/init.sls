@@ -114,40 +114,40 @@ nginx_service2:
 nodejs:
   pkg.installed
 
-nodejs-legacy:
-  pkg.installed:
-    - require:
-      - pkg: nodejs
+#nodejs-legacy:
+#  pkg.installed:
+#    - require:
+#      - pkg: nodejs
 
-yarn_repo:
-  pkgrepo.managed:
-    - humanname: Yarn Official Debian Repository
-    - name: deb https://dl.yarnpkg.com/debian/ stable main
-    - dist: stable
-    - key_url: https://dl.yarnpkg.com/debian/pubkey.gpg
-    - file: /etc/apt/sources.list.d/yarn.list
-
-yarn:
-  pkg.installed:
-    - require:
-       - pkgrepo: yarn_repo
-       - pkg: nodejs-legacy
-  
+#yarn_repo:
+#  pkgrepo.managed:
+#    - humanname: Yarn Official Debian Repository
+#    - name: deb https://dl.yarnpkg.com/debian/ stable main
+#    - dist: stable
+#    - key_url: https://dl.yarnpkg.com/debian/pubkey.gpg
+#    - file: /etc/apt/sources.list.d/yarn.list
+#
+#yarn:
+#  pkg.installed:
+#    - require:
+#       - pkgrepo: yarn_repo
+#       - pkg: nodejs-legacy
+#
 install_gulp:
   cmd.run:
-    - name: yarn global add gulp-cli
+    - name: npm -g install gulp-cli
     - cwd: /var/www/yiiframework
     - require:
-      - pkg: yarn
+      - pkg: nodejs
     - unless: which gulp
 
-yarn_install:
+npm_install:
   cmd.run:
-    - name: yarn install
+    - name: npm install
     - cwd: /var/www/yiiframework
     - require:
       - cmd: env_init
-      - pkg: yarn
+      - pkg: nodejs
     - onchanges:
       - git: yiiframework_git
 
@@ -159,7 +159,7 @@ contributors_gen:
     - cwd: /var/www/yiiframework
     - require:
       - cmd: composer
-      - cmd: yarn_install
+      - cmd: npm_install
       - cmd: install_gulp
     - onchanges:
       - git: yiiframework_git
@@ -170,7 +170,7 @@ gulp_build:
     - name: gulp build --production
     - cwd: /var/www/yiiframework
     - require:
-      - cmd: yarn_install
+      - cmd: npm_install
       - cmd: install_gulp
       - cmd: contributors_gen
     - onchanges:

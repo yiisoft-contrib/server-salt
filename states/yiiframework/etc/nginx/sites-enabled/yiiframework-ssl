@@ -18,12 +18,12 @@ server {
 	access_log  /var/log/nginx/yiiframework-ssl.access.log;
 	error_log   /var/log/nginx/yiiframework-ssl.error.log;
 
-	# CSP header
-        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://kiwiirc.com ; style-src 'self' 'unsafe-inline'; img-src 'self' https://user-content.yiiframework.com https://www.gravatar.com http://www.gravatar.com data: ; child-src 'self' https://kiwiirc.com ; frame-src 'self' https://kiwiirc.com ; upgrade-insecure-requests ;";
-	add_header X-Frame-Options SAMEORIGIN;
-	add_header X-XSS-Protection "1; mode=block";
-	# https://scotthelme.co.uk/a-new-security-header-referrer-policy/
-	add_header Referrer-Policy strict-origin;
+    # CSP header
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://kiwiirc.com ; style-src 'self' 'unsafe-inline'; img-src 'self' https://user-content.yiiframework.com https://www.gravatar.com http://www.gravatar.com data: ; child-src 'self' https://kiwiirc.com ; frame-src 'self' https://kiwiirc.com ; upgrade-insecure-requests ;";
+    add_header X-Frame-Options SAMEORIGIN;
+    add_header X-XSS-Protection "1; mode=block";
+    # https://scotthelme.co.uk/a-new-security-header-referrer-policy/
+    add_header Referrer-Policy strict-origin;
 
 	location /signup {
 			limit_req zone=signup;
@@ -89,7 +89,7 @@ server {
 	location ~ ^/index.php$ {
 		include fastcgi_params;
 		#fastcgi_pass   127.0.0.1:9000;
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
 		try_files $uri =404;
 	}
 

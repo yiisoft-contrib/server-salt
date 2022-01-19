@@ -1,14 +1,14 @@
 debconf-utils:
   pkg.installed
 
-{% set mysql_root_pw = salt['random.get_str'](20) %}
+{% set mysql_root_pw = salt['random.get_str'](20,punctuation=False) %}
 
 mysql_setup:
   debconf.set:
-    - name: mysql-server
+    - name: mariadb-server
     - data:
-        'mysql-server/root_password': {'type': 'password', 'value': "{{ mysql_root_pw }}" }
-        'mysql-server/root_password_again': {'type': 'password', 'value': '{{ mysql_root_pw }}' }
+        'mariadb-server/root_password': {'type': 'password', 'value': "{{ mysql_root_pw }}" }
+        'mariadb-server/root_password_again': {'type': 'password', 'value': '{{ mysql_root_pw }}' }
     - require:
       - pkg: debconf-utils
     - unless: test -f /root/my.cnf
@@ -27,26 +27,26 @@ mysql_setup:
         [mysqlcheck]
         password={{ mysql_root_pw }}
     - onchanges:
-      - pkg: mysql-server
+      - pkg: mariadb-server
 
 
-python-mysqldb:
+python3-mysqldb:
   pkg.installed
 
-mysql-server:
+mariadb-server:
   pkg.installed:
     - require:
-      - debconf: mysql-server
-      - pkg: python-mysqldb
+      - debconf: mariadb-server
+      - pkg: python3-mysqldb
 
 mysql:
   service.running:
     - enable: True
     - watch:
-      - pkg: mysql-server
+      - pkg: mariadb-server
       - file: /etc/mysql/mariadb.conf.d/60-custom.cnf
 
-{% set mysql_user_pw = salt['random.get_str'](20) %}
+{% set mysql_user_pw = salt['random.get_str'](20,punctuation=False) %}
 
 mysql_user:
   mysql_user.present:
@@ -56,7 +56,7 @@ mysql_user:
     - connection_default_file: /root/my.cnf
     - require:
       - file: /root/my.cnf
-      - pkg: mysql-server
+      - pkg: mariadb-server
     - unless: test -f /var/www/yiiframework/config/db.php
 
 /var/www/yiiframework/config/db.php:
@@ -113,7 +113,7 @@ mysql_permissions_forum_write:
   file.managed:
     - source: salt://yiiframework/etc/mysql/mariadb.conf.d/60-custom.cnf
     - require:
-      - pkg: mysql-server
+      - pkg: mariadb-server
 
 /var/backups/mysql:
   file.directory:

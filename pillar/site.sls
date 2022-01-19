@@ -10,7 +10,7 @@ ssl:
       webdir: /var/www/yiiframework/web
 
 php:
-  version: 7.0
+  version: 7.4
   extensions:
     - mysql
 

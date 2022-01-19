@@ -138,33 +138,16 @@ node.data: true
 # the index status.
 
 
-#################################### Paths ####################################
-
-# Path to directory containing configuration (this file and logging.yml):
+# ----------------------------------- Paths ------------------------------------
 #
-#path.conf: /path/to/conf
-
-# Path to directory where to store index data allocated for this node.
+# Path to directory where to store the data (separate multiple locations by comma):
 #
-#path.data: /path/to/data
+path.data: /var/lib/elasticsearch
 #
-# Can optionally include more than one location, causing data to be striped across
-# the locations (a la RAID 0) on a file level, favouring locations with most free
-# space on creation. For example:
-#
-#path.data: /path/to/data1,/path/to/data2
-
-# Path to temporary files:
-#
-#path.work: /path/to/work
-
 # Path to log files:
 #
-#path.logs: /path/to/logs
-
-# Path to where plugins are installed:
+path.logs: /var/log/elasticsearch
 #
-#path.plugins: /path/to/plugins
 
 
 #################################### Plugin ###################################
@@ -377,7 +360,8 @@ network.host: 127.0.0.1
 #monitor.jvm.gc.old.debug: 2s
 
 {% if grains['oscodename'] == 'stretch' %}
-{% else %}
+{% elif grains['oscodename'] == 'buster' %}
 script.disable_dynamic: false
+{% else %}
+script.allowed_types: none
 {% endif %}
-

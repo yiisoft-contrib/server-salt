@@ -105,7 +105,7 @@ mongodb:
       - pkg: mongodb-server
       - file: /etc/mongodb.conf
 
-{% set mongodb_user_pw = salt['random.get_str'](16) %}
+{% set mongodb_user_pw = salt['random.get_str'](16,punctuation=False) %}
 
 mongodb_user:
   cmd.run:
@@ -123,7 +123,7 @@ mongodb_user:
     - contents: |
         {
             "url": "https://{{ grains.id }}",
-            "secret": "{{ salt['random.get_str'](32) }}",
+            "secret": "{{ salt['random.get_str'](32,punctuation=False) }}",
             "database": "mongo",
             "mongo": {
                 "host": "127.0.0.1",
