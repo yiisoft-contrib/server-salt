@@ -8,7 +8,7 @@ include:
   - nginx.acme-certs
   - php.fpm
   - php.composer
-  - db.elasticsearch # TODO
+  - elasticsearch
   - .mysql
   - .cronjobs
   - .imagefilter

@@ -1,0 +1,14 @@
+/var/log/elasticsearch/*.log {
+	daily
+	missingok
+	rotate 7
+	compress
+	delaycompress
+	notifempty
+	create 0644 elasticsearch elasticsearch
+	sharedscripts
+	postrotate
+		systemctl restart elasticsearch
+	endscript
+}
+
