@@ -23,17 +23,16 @@ You need to configure your SSH key in the `roster` file.
 
 ## Linux (Debian/Ubuntu)
 
-Install `salt-ssh` via APT:
+Install `salt-ssh` via Python PIP:
 
-    apt-get install salt-ssh
+    apt-get install python3-pip
+    pip3 install salt-ssh
 
-We are currently working with version 2016.11 or higher (check with `salt-ssh --version`).
-
-Alternatively you can install it via python pip: `pip install salt-ssh`.
+We are currently working with version 3004 or higher (check with `salt-ssh --version`).
 
 ## Windows
 
-TBD
+At the time of this writing it seems salt-ssh is not supported on windows, so you need a linux VM or docker container to run it.
 
 ## Mac
 
