@@ -49,33 +49,33 @@ TBD
 
 # Setting up a new server
 
-For setting up a new server you need to have your public added to `/root/.ssh/authorized_keys`.
-Run `salt-ssh -i 'servername' test.ping` to test the setup. It should respond with
+For setting up a new server you need to have your SSH public key added to `/root/.ssh/authorized_keys`.
+Run `salt-ssh -i '<SERVERNAME>' test.ping` to test the setup. It should respond with
 
 ```yaml
-servername:
+<SERVERNAME>:
     True
 ```
 
 If the server is set up correctly we apply the `basic` state to install some common software and configure basic stuff:
 
-    salt-ssh 'servername' state.apply basic
+    salt-ssh '<SERVERNAME>' state.apply basic
 
 # Deploying
 
-For deplyoment, apply the state for the servers:
+For deplyoment, apply the state for the servers (which are defined in `states/top.sls`):
 
-    salt-ssh 'servername' state.apply
+    salt-ssh '<SERVERNAME>' state.apply
 
 You may specify `test=True`, to see if the apply command would change anything:
 
-    salt-ssh 'servername' state.apply test=True
+    salt-ssh '<SERVERNAME>' state.apply test=True
 
 This will apply the states as defined in `states/top.sls`.
 
 To apply a specific states, you can specifiy it:
 
-    salt-ssh 'servername' state.apply <task>
+    salt-ssh '<SERVERNAME>' state.apply <task>
 
 `<task>` is one of the following states (as described below under "Salt States"):
 
@@ -93,6 +93,7 @@ On the first run this may take a long time, for discourse for example, their set
 >
 > Please be patient
 
+For the forum states there is more documentation available here:
 
 - `discourse` see [docs/discourse.md](docs/discourse.md)
 - `nodebb` see [docs/nodebb.md](docs/nodebb.md)
