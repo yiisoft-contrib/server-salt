@@ -4,6 +4,8 @@ This repository contains [Saltstack](https://saltstack.com/salt-open-source/) st
 
 Dependencies:
 - https://github.com/cebe-cc/salt-basic
+- https://github.com/cebe-cc/salt-nginx
+- https://github.com/cebe-cc/salt-php
 
 # Setup
 
@@ -43,7 +45,8 @@ TBD
 > **Note:** You need to run `salt-ssh` in the repository root directory as that is what contains the `Saltfile` that `salt-ssh` will read its configuration from.
 
 1. Configure servers in salt roster (copy `roster.dist` to `roster` and adjust it as needed)
-2. Run `salt-ssh -i '*' test.ping` to see if servers are set up correctly (`-i` on the first run to automatically accept the host keys).
+2. For some servers you need salt pillar data with secrets that are not part of the public repo. Copy `pillar/<SERVERNAME>-secrets.dist.sls` to `pillar/<SERVERNAME>-secrets.sls` for these and fill out the missing config.
+3. Run `salt-ssh -i '*' test.ping` to see if servers are set up correctly (`-i` on the first run to automatically accept the host keys).
 
 # Setting up a new server
 
