@@ -12,6 +12,7 @@ include:
   - .mysql
   - .cronjobs
   - .imagefilter
+  - .nvm
 
 
 fail2ban:
@@ -108,46 +109,21 @@ nginx_service2:
       - cmd: nginx_test_config
 
 
-#
-## npm and JS
-#
-nodejs:
-  pkg.installed
-
-#nodejs-legacy:
-#  pkg.installed:
-#    - require:
-#      - pkg: nodejs
-
-#yarn_repo:
-#  pkgrepo.managed:
-#    - humanname: Yarn Official Debian Repository
-#    - name: deb https://dl.yarnpkg.com/debian/ stable main
-#    - dist: stable
-#    - key_url: https://dl.yarnpkg.com/debian/pubkey.gpg
-#    - file: /etc/apt/sources.list.d/yarn.list
-#
-#yarn:
-#  pkg.installed:
-#    - require:
-#       - pkgrepo: yarn_repo
-#       - pkg: nodejs-legacy
-#
 install_gulp:
   cmd.run:
-    - name: npm -g install gulp-cli
+    - name: '. "/opt/nvm/nvm.sh"; npm -g install gulp-cli'
     - cwd: /var/www/yiiframework
     - require:
-      - pkg: nodejs
-    - unless: which gulp
+      - cmd: install_nodejs
+    - unless: '. "/opt/nvm/nvm.sh"; which gulp'
 
 npm_install:
   cmd.run:
-    - name: npm install
+    - name: '. "/opt/nvm/nvm.sh"; npm install'
     - cwd: /var/www/yiiframework
     - require:
       - cmd: env_init
-      - pkg: nodejs
+      - cmd: install_nodejs
     - onchanges:
       - git: yiiframework_git
 
@@ -155,7 +131,7 @@ npm_install:
 # ./yii contributors/generate
 contributors_gen:
   cmd.run:
-    - name: php ./yii contributors/generate
+    - name: '. "/opt/nvm/nvm.sh"; php ./yii contributors/generate'
     - cwd: /var/www/yiiframework
     - require:
       - cmd: composer
@@ -167,7 +143,7 @@ contributors_gen:
 
 gulp_build:
   cmd.run:
-    - name: gulp build --production
+    - name: '. "/opt/nvm/nvm.sh"; gulp build --production'
     - cwd: /var/www/yiiframework
     - require:
       - cmd: npm_install
