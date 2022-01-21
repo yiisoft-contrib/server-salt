@@ -18,6 +18,16 @@ include:
 fail2ban:
   pkg.installed
 
+/etc/php/{{ pillar.php.version }}/fpm/conf.d/60-yii.ini:
+  file.managed:
+    - contents: |
+        memory_limit=256M
+    - require:
+        - pkg: php_fpm_packages
+    - watch_in:
+        - service: php_fpm_service
+
+
 # http://salt.readthedocs.org/en/latest/ref/states/all/salt.states.git.html#interaction-with-git-repositories
 yiiframework_git:
   git.latest:
