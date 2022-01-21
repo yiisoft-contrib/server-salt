@@ -1,0 +1,14 @@
+#
+# Docker environment to use salt-ssh on windows
+#
+version: '2'
+
+services:
+
+  ct:
+    # build docker image from files in this directory
+    build: _docker
+    volumes:
+      - .:/app
+      # mount your SSH key into the container
+      - ~/.ssh/id_rsa:/root/.ssh/id_rsa:ro

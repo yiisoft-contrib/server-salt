@@ -30,9 +30,20 @@ Install `salt-ssh` via Python PIP:
 
 We are currently working with version 3004 or higher (check with `salt-ssh --version`).
 
-## Windows
+You may also use docker-compose as described below:
 
-At the time of this writing it seems salt-ssh is not supported on windows, so you need a linux VM or docker container to run it.
+## Windows / Docker
+
+At the time of this writing it seems salt-ssh is not supported on Windows, so you need a linux VM or docker container to run it:
+
+    # build the container
+    docker-compose build
+    # start a bash shell in the container
+    docker-compose run --rm ct bash
+    # run salt-ssh commands, e.g.:
+    salt-ssh -i '*' test.ping
+
+You might need to adjust the path to your SSH private key in the docker-compose.yml file or override it by adding a docker-compose.override.yml file.
 
 ## Mac
 
