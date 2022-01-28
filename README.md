@@ -1,4 +1,4 @@
-# Saltsack states for Yii Framework servers
+# Saltstack states for Yii Framework servers
 
 This repository contains [Saltstack](https://saltstack.com/salt-open-source/) state files for provisioning Yii Framework servers.
 
@@ -34,7 +34,10 @@ You may also use docker-compose as described below:
 
 ## Windows / Docker
 
-At the time of this writing it seems salt-ssh is not supported on Windows, so you need a linux VM or docker container to run it:
+At the time of this writing it seems salt-ssh is not supported on Windows, so you need a linux VM or docker container to run it.
+First copy your private ssh key to `ssh/id_rsa`. If you have a password, remove it with `ssh-keygen -p` since `salt-ssh` doesn't support entering a password.
+
+Then run the following:
 
     # build the container
     docker-compose build
@@ -42,8 +45,6 @@ At the time of this writing it seems salt-ssh is not supported on Windows, so yo
     docker-compose run --rm ct bash
     # run salt-ssh commands, e.g.:
     salt-ssh -i '*' test.ping
-
-You might need to adjust the path to your SSH private key in the docker-compose.yml file or override it by adding a docker-compose.override.yml file.
 
 ## Mac
 
@@ -74,7 +75,7 @@ If the server is set up correctly we apply the `basic` state to install some com
 
 # Deploying
 
-For deplyoment, apply the state for the servers (which are defined in `states/top.sls`):
+For deployment, apply the state for the servers (which are defined in `states/top.sls`):
 
     salt-ssh '<SERVERNAME>' state.apply
 
@@ -84,7 +85,7 @@ You may specify `test=True`, to see if the apply command would change anything:
 
 This will apply the states as defined in `states/top.sls`.
 
-To apply a specific states, you can specifiy it:
+To apply a specific states, you can specify it:
 
     salt-ssh '<SERVERNAME>' state.apply <task>
 
@@ -92,7 +93,7 @@ To apply a specific states, you can specifiy it:
 
 - Discourse Forum: `discourse`
 - Yii Website: `yiiframework`
-- Yii Github bot: `yiibot`
+- Yii GitHub bot: `yiibot`
 
 
 # Salt States

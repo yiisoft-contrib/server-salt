@@ -7,8 +7,8 @@ services:
 
   ct:
     # build docker image from files in this directory
-    build: _docker
+    build: 
+      context: ./
+      dockerfile: _docker/Dockerfile
     volumes:
       - .:/app
-      # mount your SSH key into the container
-      - ~/.ssh/id_rsa:/root/.ssh/id_rsa:ro

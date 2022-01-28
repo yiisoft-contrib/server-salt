@@ -6,4 +6,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+COPY --chmod=400 ssh/id_rsa /root/.ssh/id_rsa
+
 WORKDIR /app
