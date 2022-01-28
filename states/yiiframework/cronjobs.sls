@@ -1,4 +1,12 @@
 
+# cronjobs are managed in
+/etc/cron.d/yiiframework:
+  file.symlink:
+    - target: /var/www/yiiframework/config/crontab
+
+
+
+# legacy: delete old cronjobs (cronjobs are now managed in crontab)
 {% set cronjobs = {
   "sitemap/generate": "@daily",
   "contributors/generate": "@weekly",
@@ -14,9 +22,9 @@
 {% for c,i in cronjobs.items() %}
 
 yii_cron_{{ c }}:
-  cron.present:
+  cron.absent:
     - identifier: yii-cron-{{ c }}
-    - name: 'cd /var/www/yiiframework && php ./yii {{ c }} > /dev/null'
+#    - name: 'cd /var/www/yiiframework && php ./yii {{ c }} > /dev/null'
     - user: root
     - special: '{{ i }}'
 
