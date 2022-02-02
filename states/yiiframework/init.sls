@@ -186,6 +186,7 @@ docs_pkg:
     - pkgs:
       - texlive-full
       - make
+      - python3-pygments
 
 #
 ## yii2-queue service
