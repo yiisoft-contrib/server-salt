@@ -1,8 +1,8 @@
 
-curl:
+acme_curl_pkg:
   pkg.installed
 
-git:
+acme_git_pkg:
   pkg.installed
 
 acme_git:
@@ -11,7 +11,8 @@ acme_git:
     - rev: v2.6.9
     - target: /opt/acme.sh
     - require:
-        - pkg: git
+        - pkg: acme_git_pkg
+        - pkg: acme_curl_pkg
 
 acme_install:
   cmd.run:
