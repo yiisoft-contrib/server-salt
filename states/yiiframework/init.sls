@@ -21,7 +21,7 @@ fail2ban:
 /etc/php/{{ pillar.php.version }}/fpm/conf.d/60-yii.ini:
   file.managed:
     - contents: |
-        memory_limit=256M
+        memory_limit=350M
     - require:
         - pkg: php_fpm_packages
     - watch_in:
