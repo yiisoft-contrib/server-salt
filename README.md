@@ -26,7 +26,7 @@ You need to configure your SSH key in the `roster` file.
 Install `salt-ssh` via Python PIP:
 
     apt-get install python3-pip
-    pip3 install salt-ssh
+    pip3 install salt
 
 We are currently working with version 3004 or higher (check with `salt-ssh --version`).
 
