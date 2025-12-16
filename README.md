@@ -56,7 +56,7 @@ TBD
 > **Note:** You need to run `salt-ssh` in the repository root directory as that is what contains the `Saltfile` that `salt-ssh` will read its configuration from.
 
 1. Configure servers in salt roster (copy `roster.dist` to `roster` and adjust it as needed)
-2. For some servers you need salt pillar data with secrets that are not part of the public repo. Copy `pillar/<SERVERNAME>-secrets.dist.sls` to `pillar/<SERVERNAME>-secrets.sls` for these and fill out the missing config.
+2. For some servers you need salt pillar data with secrets that are not part of the public repo. Copy `pillar/<SERVERNAME>-secrets.dist.sls` to `pillar/<SERVERNAME>-secrets.sls` for these and fill out the missing config. For the prod servers clone the secrets repo and link them.
 3. Run `salt-ssh -i '*' test.ping` to see if servers are set up correctly (`-i` on the first run to automatically accept the host keys).
 
 # Setting up a new server
