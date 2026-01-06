@@ -56,6 +56,7 @@ class Subsplit
 		}
 
 		foreach ($this->branches as $branch) {
+			echo "checking last sync for branch '$branch'...\n";
 			$lastHash = isset($this->lastSync['hashes'][$branch]) ? $this->lastSync['hashes'][$branch] : false;
 			$hash = $this->getHash($branch);
 			if ($lastHash === false || $tag !== null) {

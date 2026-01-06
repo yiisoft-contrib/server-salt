@@ -105,8 +105,14 @@ On the first run this may take a long time, for discourse for example, their set
 >
 > Please be patient
 
+## Forum
+
 For the forum states there is more documentation available here:
 
 - `discourse` see [docs/discourse.md](docs/discourse.md)
 - `nodebb` see [docs/nodebb.md](docs/nodebb.md)
+
+## Yii Bot and Git Subsplit
+
+See [states/yiibot/README.md](./states/yiibot/README.md).
 

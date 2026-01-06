@@ -1,0 +1,131 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:146.0) Gecko/20100101 Firefox/146.0" version="29.2.9">
+  <diagram name="Seite-1" id="iMQIn_sGx3STVUHxfHc6">
+    <mxGraphModel dx="2893" dy="1156" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="zOlttRGErQAPkdduezMX-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;dashPattern=8 8;" value="" vertex="1">
+          <mxGeometry height="470" width="240" x="560" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-2" parent="1" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/Ionicons-2627/icon-social-github-1402.svg" value="" vertex="1">
+          <mxGeometry height="92" width="92" x="634" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-4" parent="1" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;size=10;" value="yiisoft/yii2" vertex="1">
+          <mxGeometry height="70" width="150" x="620" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-7" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=30;exitPerimeter=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="zOlttRGErQAPkdduezMX-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;labelPosition=center;verticalLabelPosition=top;align=center;verticalAlign=bottom;" value="bot Server" vertex="1">
+          <mxGeometry height="430" width="260" x="-10" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-9" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#d5e8d4;strokeColor=#82b366;" value="/tmp/github-yii2.lock" vertex="1">
+          <mxGeometry height="40" width="120" x="30" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-11" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=30;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="zOlttRGErQAPkdduezMX-10" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="240" />
+            </Array>
+            <mxPoint x="601" y="242.5" as="sourcePoint" />
+            <mxPoint x="340" y="237.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-12" connectable="0" parent="zOlttRGErQAPkdduezMX-11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Push Webhook&lt;br&gt;https://bot.yiiframework.com/subsplit-hook.php?token=..." vertex="1">
+          <mxGeometry relative="1" x="-0.0903" y="-3" as="geometry">
+            <mxPoint x="-12" y="-17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div&gt;subsplit-hook.php&lt;/div&gt;" vertex="1">
+          <mxGeometry height="20" width="120" x="190" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-15" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="zOlttRGErQAPkdduezMX-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-16" connectable="0" parent="zOlttRGErQAPkdduezMX-15" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&quot;ok&quot;" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-18" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="zOlttRGErQAPkdduezMX-9" value="&quot;ok&quot;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-17" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="trigger-subsplit.sh" vertex="1">
+          <mxGeometry height="20" width="120" x="30" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-20" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.348;exitY=-0.009;exitDx=0;exitDy=0;exitPerimeter=0;" target="zOlttRGErQAPkdduezMX-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-21" connectable="0" parent="zOlttRGErQAPkdduezMX-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="checks file,&lt;br&gt;runs when it exists" vertex="1">
+          <mxGeometry relative="1" x="-0.5156" y="-1" as="geometry">
+            <mxPoint x="-1" y="-17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-33" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" target="zOlttRGErQAPkdduezMX-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-34" connectable="0" parent="zOlttRGErQAPkdduezMX-33" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="stores last commit hash&lt;br&gt;for each branch&lt;br&gt;update subsplit only on changes" vertex="1">
+          <mxGeometry relative="1" x="-0.1579" y="4" as="geometry">
+            <mxPoint x="-1" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-19" parent="1" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Cronjob&lt;br&gt;*/2 * * * *&lt;div&gt;split.php&lt;br&gt;&lt;br&gt;Updates subsplit for each branch&amp;nbsp;&lt;br&gt;when files in subdir have changed&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="230" x="10" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Manual Trigger" vertex="1">
+          <mxGeometry height="20" width="90" x="45" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Webhook Trigger" vertex="1">
+          <mxGeometry height="30" width="105" x="190" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-24" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#d5e8d4;strokeColor=#82b366;" value="last-sync.php" vertex="1">
+          <mxGeometry height="40" width="90" x="20" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-25" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#d5e8d4;strokeColor=#82b366;" value="local git repo" vertex="1">
+          <mxGeometry height="40" width="90" x="140" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-28" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=60;exitDy=70;exitPerimeter=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#d5e8d4;strokeColor=#000000;" target="zOlttRGErQAPkdduezMX-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="420" />
+              <mxPoint x="300" y="420" />
+              <mxPoint x="300" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-30" connectable="0" parent="zOlttRGErQAPkdduezMX-28" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="git pull" vertex="1">
+          <mxGeometry relative="1" x="0.2633" y="-4" as="geometry">
+            <mxPoint x="15" y="-6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-29" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="zOlttRGErQAPkdduezMX-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-39" connectable="0" parent="zOlttRGErQAPkdduezMX-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="git subsplit" vertex="1">
+          <mxGeometry relative="1" x="-0.1724" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-31" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=10;entryDy=70;entryPerimeter=0;" target="zOlttRGErQAPkdduezMX-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-32" connectable="0" parent="zOlttRGErQAPkdduezMX-31" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Github API Request&lt;br&gt;https://api.github.com/repos/{repo}/compare/{lastHash}...{hash}" vertex="1">
+          <mxGeometry relative="1" x="-0.2718" y="-2" as="geometry">
+            <mxPoint x="46" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-35" parent="1" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;size=10;" value="yiisoft/yii2-framework" vertex="1">
+          <mxGeometry height="70" width="145" x="625" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-37" edge="1" parent="1" source="zOlttRGErQAPkdduezMX-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=26;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=30;entryPerimeter=0;" target="zOlttRGErQAPkdduezMX-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="zOlttRGErQAPkdduezMX-38" connectable="0" parent="zOlttRGErQAPkdduezMX-37" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="git push" vertex="1">
+          <mxGeometry relative="1" x="0.0966" y="-2" as="geometry">
+            <mxPoint x="-34" y="37" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

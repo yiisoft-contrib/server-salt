@@ -19,13 +19,19 @@ if (isset($argv[1]) && strpos($argv[1], '--tag=') === 0) {
 } else {
 	$signal = '/tmp/github-yii2.lock';
 	if (!@unlink($signal)) {
+		echo "failed to unlink lockfile...\n";
 		return;
 	}
 }
 
 require(__DIR__ . '/Subsplit.php');
 
-$branches = array('master', '2.1');
+$branches = array(
+	'master',
+	'2.2',
+	'2.0.49.x',
+	'22.0',
+);
 $subsplits = array(
 	'framework' => 'yiisoft/yii2-framework',
 /*
