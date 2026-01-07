@@ -1,12 +1,15 @@
 <?php
 
+$pid = getmypid();
+$logprefix = function() use ($pid) { return date('Y-m-d H:i:s') . " [$pid] "; };
+
 $lockFile = __DIR__ . '/sync.lock';
 if (!is_file($lockFile)) {
 	file_put_contents($lockFile, '0');
 }
 $fp = fopen($lockFile, 'r+');
 if (!flock($fp, LOCK_EX | LOCK_NB)) {
-	die("Unable to obtain lock for sync.lock.");
+	die($logprefix() . "Unable to obtain lock for sync.lock.");
 }
 
 if (isset($argv[1]) && strpos($argv[1], '--tag=') === 0) {
@@ -19,13 +22,19 @@ if (isset($argv[1]) && strpos($argv[1], '--tag=') === 0) {
 } else {
 	$signal = '/tmp/github-yii2.lock';
 	if (!@unlink($signal)) {
+		echo $logprefix() . "signal does not exist, do not run subsplit.\n";
 		return;
 	}
 }
 
 require(__DIR__ . '/Subsplit.php');
 
-$branches = array('master', '2.1');
+$branches = array(
+	'master',
+	'2.2',
+	'2.0.49.x',
+	'22.0',
+);
 $subsplits = array(
 	'framework' => 'yiisoft/yii2-framework',
 /*
@@ -57,7 +66,7 @@ $repo = 'yiisoft/yii2';
 $githubToken = '{{ pillar.yiibot.github_subsplit_token }}';
 $git = 'git';
 
-echo date('Y-m-d H:i:s') . " running subsplit script...\n";
+echo $logprefix() . "running subsplit script...\n";
 try {
 	$subsplit = new Subsplit(
 		$repo,
@@ -72,7 +81,7 @@ try {
 	echo "Error: " . $e->getMessage() . "\n";
 }
 
-echo date('Y-m-d H:i:s') . " finished subsplit script.\n";
+echo $logprefix() . "finished subsplit script.\n";
 
 flock($fp, LOCK_UN);
 fclose($fp);

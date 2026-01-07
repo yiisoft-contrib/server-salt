@@ -1,7 +1,8 @@
 
 /var/www/yiibot/web/subsplit-hook.php:
   file.managed:
-    - source: salt://services/yiibot/subsplit/subsplit-hook.php
+    - source: salt://yiibot/subsplit/subsplit-hook.php
+    - template: jinja
 
 /var/www/yii-subsplit:
   file.directory:
@@ -25,14 +26,21 @@
 
 /var/www/yii-subsplit/split.php:
   file.managed:
-    - source: salt://services/yiibot/subsplit/split.php
+    - source: salt://yiibot/subsplit/split.php
     - template: jinja
     - require:
       - file: /var/www/yii-subsplit
 
 /var/www/yii-subsplit/Subsplit.php:
   file.managed:
-    - source: salt://services/yiibot/subsplit/Subsplit.php
+    - source: salt://yiibot/subsplit/Subsplit.php
+    - require:
+      - file: /var/www/yii-subsplit
+
+/var/www/yii-subsplit/trigger-subsplit.sh:
+  file.managed:
+    - source: salt://yiibot/subsplit/trigger-subsplit.sh
+    - mode: '0755'
     - require:
       - file: /var/www/yii-subsplit
 
@@ -40,7 +48,9 @@ https://github.com/yiisoft/yii2:
   git.latest:
     - target: /var/www/yii-subsplit/.subsplit
     - user: www-data
-    - force: True
+    - force_reset: True
+    - force_checkout: True
+    - force_fetch: True
     - branch: master
 
 https://github.com/dflydev/git-subsplit:

@@ -5,4 +5,8 @@
 
 if (isset($_GET['token']) && $_GET['token'] === '{{ pillar.yiibot.github_subsplit_secret }}') {
   file_put_contents('/tmp/github-yii2.lock', 'ok');
+  http_response_code(200);
+  return;
 }
+http_response_code(401);
+

@@ -14,8 +14,8 @@ yiibot_git:
 
 /var/www/yiibot/config.local.php:
   file.managed:
-    - source: salt://services/yiibot/config.local.php
-    - template: Jinja
+    - source: salt://yiibot/config.local.php
+    - template: jinja
 
 /var/www/yiibot/runtime:
   file.directory:
@@ -39,7 +39,7 @@ composer:
 # nginx
 /etc/nginx/sites-enabled/yiibot:
   file.managed:
-    - source: salt://services/yiibot/etc/nginx/sites-enabled/yiibot
+    - source: salt://yiibot/etc/nginx/sites-enabled/yiibot
     - watch_in:
       - service: nginx_service2
     - require:
@@ -55,7 +55,8 @@ nginx_service2:
 
 /etc/nginx/sites-enabled/yiibot-ssl:
   file.managed:
-    - source: salt://services/yiibot/etc/nginx/sites-enabled/yiibot-ssl
+    - source: salt://yiibot/etc/nginx/sites-enabled/yiibot-ssl
+    - template: jinja
     - watch_in:
       - service: nginx_service
     - require:

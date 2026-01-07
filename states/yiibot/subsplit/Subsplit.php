@@ -56,8 +56,11 @@ class Subsplit
 		}
 
 		foreach ($this->branches as $branch) {
+			echo "checking last sync for branch '$branch'...\n";
 			$lastHash = isset($this->lastSync['hashes'][$branch]) ? $this->lastSync['hashes'][$branch] : false;
 			$hash = $this->getHash($branch);
+			echo "  last hash    '$lastHash'\n";
+			echo "  current hash '$hash'\n";
 			if ($lastHash === false || $tag !== null) {
 				$splits = $this->subsplits;
 			} elseif ($lastHash !== $hash) {
@@ -83,7 +86,20 @@ class Subsplit
 	protected function getChangedSubsplits($hash, $lastHash)
 	{
 		$diff = $this->queryGithub("/repos/{$this->repo}/compare/$lastHash...$hash");
+		echo "checking diff with " . count($diff['files']) . " files...\n";
+
 		$subsplits = array();
+
+		// Github API limits files to 300 even if there are more
+		// The API does not provide an indicator that the list is limited
+		// If we see 300 files, we trigger a subsplit without checking files
+		if (count($diff['files']) >= 300) {
+			echo "diff contains >= 300 files, trigger subsplit for all subdirs.\n";
+			foreach ($this->subsplits as $path => $repo) {
+				$subsplits[$path] = $repo;
+			}
+			return $subsplits;
+		}
 		foreach ($diff['files'] as $file) {
 			$filename = $file['filename'];
 			foreach ($this->subsplits as $path => $repo) {
@@ -140,6 +156,7 @@ class Subsplit
 	protected function queryGithub($url)
 	{
 		$url = self::GITHUB_BASE_URL . $url;
+		echo "Github API request: $url\n";
 		$c = curl_init();
                 curl_setopt($c, CURLOPT_SSLVERSION, 6);
 		curl_setopt($c, CURLOPT_URL, $url);
