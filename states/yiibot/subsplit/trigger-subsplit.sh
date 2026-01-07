@@ -13,6 +13,8 @@
 echo "ok" | su -s /bin/bash -c "tee /tmp/github-yii2.lock" www-data
 
 echo ""
-echo "subsplit triggered, check logs for updates:"
+echo "subsplit triggered, it will run within the next 2 minutes."
+echo "Check logs for updates:"
+echo ""
 echo "tail -f /var/log/subsplit.log"
 echo ""
