@@ -34,6 +34,7 @@ return [
 		'yiisoft/yii2-swiftmailer',
 		'yiisoft/yii2-shell',
 		'yiisoft/yii2-twig',
+		'cebe/testrepo',
 
                 // Yii 3.0 repositories
                 'yiisoft/yii-core',
@@ -75,7 +76,6 @@ return [
                 'yiisoft/db-redis',
                 'yiisoft/db-mongodb',
                 'yiisoft/db-elasticsearch',
-		//'cebe/testrepo',
 	],
 	'github_token' => '{{ pillar.yiibot.github_token }}', // yii-bot
 	'github_username' => '{{ pillar.yiibot.github_username }}',
