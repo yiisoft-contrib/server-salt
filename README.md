@@ -15,7 +15,7 @@ Clone the repo and install submodules:
     cd yii-servers
     git submodule update --init
 
-You need [`salt-ssh`](https://docs.saltstack.com/en/latest/topics/ssh/index.html)
+You need [`salt-ssh`](https://docs.saltproject.io/en/latest/topics/ssh/index.html)
 installed and have it configured with your SSH key.
  
 Copy the [roster.dist](./roster.dist)  file to `roster` and adjust it if you are not working on the live servers.
