@@ -215,6 +215,7 @@ yiiframework-queue:
     - watch:
       - git: yiiframework_git
       - file: /etc/systemd/system/yiiframework-queue.service
+      - cmd: php_update_alternative
     - require:
       - cmd: yii_migrate
       - cmd: systemd_reload
