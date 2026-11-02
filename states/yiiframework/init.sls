@@ -216,6 +216,7 @@ yiiframework-queue:
     - require:
       - cmd: yii_migrate
       - cmd: systemd_reload
+      - cmd: php_update_alternative
 
 #yii-forum-mysql:
 #  service.running:
