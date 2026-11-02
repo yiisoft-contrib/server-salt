@@ -216,6 +216,7 @@ yiiframework-queue:
       - git: yiiframework_git
       - file: /etc/systemd/system/yiiframework-queue.service
       - cmd: php_update_alternative
+      - pkg: php_fpm_packages
     - require:
       - cmd: yii_migrate
       - cmd: systemd_reload
