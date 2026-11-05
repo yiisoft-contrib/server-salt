@@ -6,4 +6,4 @@
 	url = https://github.com/cebe-cc/salt-nginx.git
 [submodule "states/php"]
 	path = states/php
-	url = https://github.com/samdark/salt-php.git
+	url = https://github.com/cebe-cc/salt-php.git
