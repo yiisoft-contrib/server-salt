@@ -82,6 +82,10 @@ salt-ssh '<SERVERNAME>' state.apply <task>
 - Yii Website: `yiiframework`
 - Yii GitHub bot: `yiibot`
 
+## In-place Debian upgrade
+
+Use the [Debian 13 upgrade runbook](docs/debian-13-upgrade.md) to upgrade the existing website host from Bullseye through Bookworm to Trixie. The separately invoked `debian-upgrade` Salt state stages the console helper.
+
 ## Nginx for yiiframework.com
 
 The website state tracks the latest Nginx mainline package and its matching image-filter module from the official Nginx APT repository. Provisioning requires version `1.31.9` or newer. If the host's Debian suite lacks patched packages, Salt stops the Nginx upgrade before replacing the installed packages. Use a Debian suite that publishes patched mainline packages, such as Bookworm or Trixie.
