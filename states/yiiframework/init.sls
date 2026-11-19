@@ -232,11 +232,35 @@ yiiframework-queue:
 redis-server:
   pkg.installed
 
-rollbar_trigger:
+{% set sentry = salt['pillar.get']('yiisite:sentry', {}) or {} %}
+{% if sentry.get('auth_token') and sentry.get('organization') and sentry.get('project') %}
+sentry_deploy:
   cmd.run:
-    - name: 'curl -XPOST https://api.rollbar.com/api/1/deploy/ -F access_token={{ pillar.yiisite.rollbar_token }} -F environment=production -F revision=$(git rev-parse --verify HEAD)'
+    - name: |
+        set -eu
+        revision=$(git rev-parse --verify HEAD)
+        releases_url="https://sentry.io/api/0/organizations/${SENTRY_ORG}/releases/"
+        release=$(php -r 'echo json_encode(["version" => $argv[1], "projects" => [$argv[2]]], JSON_THROW_ON_ERROR);' "$revision" "$SENTRY_PROJECT")
+
+        sentry_post() {
+            printf 'Authorization: Bearer %s\n' "$SENTRY_AUTH_TOKEN" |
+                curl --fail --silent --show-error --max-time 30 --output /dev/null \
+                    --header @- --header 'Content-Type: application/json' \
+                    --data "$1" "$2"
+        }
+
+        sentry_post "$release" "$releases_url"
+        sentry_post '{"environment":"production"}' "${releases_url}${revision}/deploys/"
     - cwd: /var/www/yiiframework
+    - env:
+        SENTRY_AUTH_TOKEN: {{ sentry.auth_token | tojson }}
+        SENTRY_ORG: {{ sentry.organization | tojson }}
+        SENTRY_PROJECT: {{ sentry.project | tojson }}
     - onchanges:
       - git: yiiframework_git
-
+    - require:
+      - cmd: gulp_build
+      - cmd: yii_rbac
+      - service: yiiframework-queue
+{% endif %}
 

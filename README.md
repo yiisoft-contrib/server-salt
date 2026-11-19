@@ -82,6 +82,19 @@ salt-ssh '<SERVERNAME>' state.apply <task>
 - Yii Website: `yiiframework`
 - Yii GitHub bot: `yiibot`
 
+## Sentry deploy reporting
+
+To record production deploys for yiiframework.com, create a Sentry Organization Auth Token with the `org:ci` scope. Add the token and your Sentry organization and project slugs to the private `pillar/site-secrets.sls` file (see [the example pillar](pillar/site-secrets.dist.sls)). Keep the token out of the repository.
+
+```yaml
+yiisite:
+  sentry:
+    auth_token: <organization auth token>
+    organization: <organization slug>
+    project: <project slug>
+```
+
+When all three settings are present, Salt uses the deployed Git commit SHA as the Sentry release version and records a `production` deploy. If any setting is missing or blank, Salt skips Sentry reporting and continues the deployment. The app uses `SENTRY_DSN` separately for error reporting.
 
 # Salt States
 
