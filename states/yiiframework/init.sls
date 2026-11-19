@@ -72,6 +72,7 @@ composer:
       - HOME: '/root'
     - require:
       - cmd: env_init
+      - cmd: php_update_alternative
     - onchanges:
       - git: yiiframework_git
 
@@ -110,6 +111,7 @@ nginx_service2:
 /etc/nginx/sites-enabled/yiiframework-ssl:
   file.managed:
     - source: salt://yiiframework/etc/nginx/sites-enabled/yiiframework-ssl
+    - template: jinja
     - watch_in:
       - service: nginx_service
     - require:
@@ -213,9 +215,12 @@ yiiframework-queue:
     - watch:
       - git: yiiframework_git
       - file: /etc/systemd/system/yiiframework-queue.service
+      - cmd: php_update_alternative
+      - pkg: php_fpm_packages
     - require:
       - cmd: yii_migrate
       - cmd: systemd_reload
+      - cmd: php_update_alternative
 
 #yii-forum-mysql:
 #  service.running:
