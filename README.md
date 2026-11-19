@@ -15,7 +15,7 @@ Clone the repo and install submodules:
 ```sh
 git clone git@github.com:yiisoft-contrib/server-salt.git yii-servers
 cd yii-servers
-git submodule update --init
+git -c core.autocrlf=false -c core.eol=lf submodule update --init
 cp roster.dist roster
 ```
 
