@@ -2,6 +2,7 @@
 # webserver for yiiframework.com
 
 include:
+  - basic.tools
   - nginx.nginx
   # pillar configured to install yiiframework.com certificate
   - nginx.acme
@@ -14,6 +15,21 @@ include:
   - .nginx-mainline
   - .imagefilter
   - .nvm
+
+
+extend:
+  php:
+    pkg.installed:
+      - require:
+        - pkgrepo: php_repository
+  php_fpm_packages:
+    pkg.installed:
+      - require:
+        - pkg: php
+  composer_installed:
+    cmd.run:
+      - require:
+        - cmd: php_update_alternative
 
 
 fail2ban:
@@ -74,6 +90,7 @@ composer:
     - require:
       - cmd: env_init
       - cmd: php_update_alternative
+      - cmd: composer_installed
     - onchanges:
       - git: yiiframework_git
 
