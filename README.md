@@ -82,6 +82,10 @@ salt-ssh '<SERVERNAME>' state.apply <task>
 - Yii Website: `yiiframework`
 - Yii GitHub bot: `yiibot`
 
+## Nginx for yiiframework.com
+
+The website state tracks the latest Nginx mainline package and its matching image-filter module from the official Nginx APT repository. Provisioning requires version `1.31.9` or newer. If the host's Debian suite lacks patched packages, Salt stops the Nginx upgrade before replacing the installed packages. Use a Debian suite that publishes patched mainline packages, such as Bookworm or Trixie.
+
 ## Sentry deploy reporting
 
 To record production deploys for yiiframework.com, create a Sentry Organization Auth Token with the `org:ci` scope. Add the token and your Sentry organization and project slugs to the private `pillar/site-secrets.sls` file (see [the example pillar](pillar/site-secrets.dist.sls)). Keep the token out of the repository.

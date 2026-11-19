@@ -11,6 +11,7 @@ include:
   - elasticsearch
   - .mysql
   - .cronjobs
+  - .nginx-mainline
   - .imagefilter
   - .nvm
 
@@ -117,6 +118,7 @@ nginx_service2:
     - require:
       - git: yiiframework_git
       - cmd: acme_cert_{{ (pillar.ssl['acme-certs']|first).domains|first }}
+      - service: php_fpm_service
     - require_in:
       - cmd: nginx_test_config
 

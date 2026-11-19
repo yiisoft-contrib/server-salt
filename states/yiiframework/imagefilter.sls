@@ -5,17 +5,6 @@
 # - https://nginx.org/en/docs/http/ngx_http_secure_link_module.html
 #
 
-libnginx-mod-http-image-filter:
-  pkg.installed:
-    - require_in:
-      - cmd: nginx_test_config
-
-# installs secure link module
-nginx-extras:
-  pkg.installed:
-    - require_in:
-      - cmd: nginx_test_config
-
 /etc/nginx/sites-enabled/imageproxy:
   file.managed:
     - source: salt://yiiframework/etc/nginx/sites-enabled/imageproxy
@@ -24,8 +13,7 @@ nginx-extras:
       - service: nginx_service
     - require:
       - cmd: acme_cert_user-content.yiiframework.com
-      - pkg: nginx-extras
-      - pkg: libnginx-mod-http-image-filter
+      - pkg: nginx_mainline_packages
     - require_in:
       - cmd: nginx_test_config
 
