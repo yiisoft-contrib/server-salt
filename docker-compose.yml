@@ -1,14 +1,13 @@
 #
 # Docker environment to use salt-ssh on windows
 #
-version: '2'
-
 services:
-
   ct:
     # build docker image from files in this directory
-    build: 
-      context: ./
+    build:
+      context: .
       dockerfile: _docker/Dockerfile
     volumes:
       - .:/app
+    tmpfs:
+      - /app/cache
